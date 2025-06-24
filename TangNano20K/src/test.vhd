@@ -16,6 +16,7 @@ end entity;
 architecture rtl of test is
     signal reconfig_n_r : std_logic := '1';
     signal led_r        : std_logic_vector(5 downto 0) := "111111";
+    signal btn2_last    : std_logic := '0';
 begin
     process(sys_clk)
     begin
@@ -25,9 +26,11 @@ begin
             else
                 led_r <= "010101";
             end if;
-            if btn2 = '1' then
+            -- Reconfigure when btn2 is released
+            if btn2_last = '1' and btn2 = '0' then
                 reconfig_n_r <= '0';
             end if;
+            btn2_last <= btn2;
         end if;
     end process;
 
